@@ -8,15 +8,17 @@ const App = () => {
   const handleClick = (index) => {
     const newBoard = [...board];
     if (newBoard[index] || calculateWinner(newBoard)) return;
-    newBoard[index] = isXNext ? 'X' : '✔';
+    newBoard[index] = isXNext ? 'X' : 'O';
     setBoard(newBoard);
     setIsXNext(!isXNext);
   };
 
   const renderSquare = (index) => {
     return (
-      <button className="square" onClick={() => handleClick(index)}>
-        {board[index]}
+      <button
+        className={`square ${board[index]}`}
+        onClick={() => handleClick(index)}
+      >
       </button>
     );
   };
@@ -27,32 +29,13 @@ const App = () => {
   };
 
   const winner = calculateWinner(board);
-  let status;
-  if (winner) {
-    status = `Winner: ${winner}`;
-  } else {
-    status = `Next player: ${isXNext ? 'X' : '✔'}`;
-  }
+  let status = winner ? `Winner: ${winner}` : `Next player: ${isXNext ? 'X' : 'O'}`;
 
   return (
     <div className="game">
       <div className="status">{status}</div>
       <div className="board">
-        <div className="board-row">
-          {renderSquare(0)}
-          {renderSquare(1)}
-          {renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {renderSquare(3)}
-          {renderSquare(4)}
-          {renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {renderSquare(6)}
-          {renderSquare(7)}
-          {renderSquare(8)}
-        </div>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => renderSquare(index))}
       </div>
       <button className="reset-button" onClick={resetBoard}>Reset</button>
     </div>
